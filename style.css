@@ -114,7 +114,7 @@ img {
 }
 
 .nav-logo-full {
-    height: 34px;
+    height: 30px;
     width: auto;
     display: block;
 }
@@ -1464,9 +1464,22 @@ img {
         padding: 40px 0 64px;
     }
 
-    /* Logo un filo più compatto su mobile */
+    /* Barra più compatta su mobile */
+    .nav {
+        padding: 14px 0;
+    }
+
+    .nav.scrolled {
+        padding: 10px 0;
+    }
+
+    /* Logo più compatto su mobile per non ingombrare la barra */
     .nav-logo-full {
-        height: 30px;
+        height: 26px;
+    }
+
+    .footer-brand .nav-logo-full {
+        height: 28px;
     }
 
     /* Voci menu mobile con area di tocco ampia */
@@ -1476,6 +1489,10 @@ img {
 }
 
 @media (max-width: 480px) {
+    .nav-logo-full {
+        height: 24px;
+    }
+
     .hero-actions {
         flex-direction: column;
         width: 100%;
