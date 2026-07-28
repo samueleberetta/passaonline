@@ -119,13 +119,7 @@ img {
     display: block;
 }
 
-.nav-logo-footer {
-    background: var(--white);
-    border-radius: 8px;
-    padding: 8px 14px;
-}
-
-.nav-logo-footer .nav-logo-full {
+.footer-brand .nav-logo-full {
     height: 30px;
 }
 
