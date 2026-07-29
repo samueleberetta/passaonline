@@ -119,7 +119,7 @@ img {
     display: block;
 }
 
-.footer-brand .nav-logo-full {
+.footer-logo .nav-logo-full {
     height: 30px;
 }
 
@@ -1290,44 +1290,71 @@ img {
     border-top: 1px solid var(--gray-200);
 }
 
-.footer-inner {
+.footer-top {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding-bottom: 30px;
-    border-bottom: 1px solid var(--gray-200);
-    margin-bottom: 30px;
+    text-align: center;
+    gap: 14px;
+    padding-bottom: 32px;
 }
 
-.footer-brand p {
+.footer-logo {
+    display: inline-flex;
+}
+
+.footer-tagline {
     color: var(--gray-500);
     font-size: 0.9rem;
-    margin-top: 8px;
+    margin-top: -4px;
 }
 
-.footer-brand .logo-passa {
-    color: var(--gray-900);
-}
-
-.footer-links {
+.footer-nav {
     display: flex;
-    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 28px;
+    margin-top: 6px;
 }
 
-.footer-links a {
+.footer-nav a {
     font-size: 0.9rem;
     color: var(--gray-600);
     transition: color 0.3s ease;
 }
 
-.footer-links a:hover {
+.footer-nav a:hover {
     color: var(--orange);
 }
 
-.footer-bottom p {
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.footer-copy {
     font-size: 0.8rem;
     color: var(--gray-500);
-    text-align: center;
+}
+
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-legal a {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    transition: color 0.3s ease;
+}
+
+.footer-legal a:hover {
+    color: var(--orange);
 }
 
 /* ===== REVEAL ANIMATIONS ===== */
@@ -1434,14 +1461,13 @@ img {
         gap: 16px;
     }
 
-    .footer-inner {
+    .footer-bottom {
         flex-direction: column;
-        gap: 24px;
         text-align: center;
+        gap: 16px;
     }
 
-    .footer-links {
-        flex-wrap: wrap;
+    .footer-legal {
         justify-content: center;
     }
 
@@ -1478,7 +1504,7 @@ img {
         height: 26px;
     }
 
-    .footer-brand .nav-logo-full {
+    .footer-logo .nav-logo-full {
         height: 28px;
     }
 
