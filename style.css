@@ -1862,6 +1862,20 @@ section[id] {
     animation-delay: 0s;
 }
 
+.cta-shape-search {
+    border: none;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-shape-search svg {
+    width: 70px;
+    height: 70px;
+    opacity: 0.18;
+}
+
 .cta-shape-2 {
     width: 80px;
     height: 80px;
