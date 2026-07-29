@@ -1115,6 +1115,10 @@ img {
     line-height: 1.65;
 }
 
+.founder-text p + p {
+    margin-top: 12px;
+}
+
 @media (max-width: 640px) {
     .founder-card {
         flex-direction: column;
