@@ -1285,10 +1285,22 @@ img {
 
 .footer-nav {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 14px 28px;
+    gap: 28px;
     margin-top: 6px;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.footer-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.footer-nav a {
+    white-space: nowrap;
 }
 
 .footer-nav a {
@@ -1518,6 +1530,18 @@ img {
     /* Logo più compatto su mobile per non ingombrare la barra */
     .nav-logo-full {
         height: 26px;
+    }
+
+    /* Nav footer su una riga sola, scorrevole se necessario */
+    .footer-nav {
+        justify-content: flex-start;
+        gap: 20px;
+        padding: 0 24px;
+        mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+    }
+
+    .footer-nav a {
+        font-size: 0.85rem;
     }
 
     .footer-logo .nav-logo-full {
