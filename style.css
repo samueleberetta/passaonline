@@ -1394,17 +1394,27 @@ img {
     }
 
     .solution-visual {
-        flex-direction: column;
-        gap: 24px;
+        position: relative;
+        max-width: 360px;
+        margin: 0 auto;
+        gap: 0;
     }
 
     .browser-mockup {
         width: 100%;
-        max-width: 500px;
+        max-width: 360px;
     }
 
     .phone-mockup {
-        width: 160px;
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        width: 104px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    }
+
+    .deco-connector {
+        display: none;
     }
 }
 
