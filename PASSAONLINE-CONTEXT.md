@@ -136,23 +136,14 @@ Tutti i loghi hanno sfondo reso trasparente (flood-fill), per fondersi su qualun
 
 ### Dominio, DNS e email
 
-Dominio `passaonline.it` registrato su **Hostinger**. La zona DNS autoritativa è attualmente **Vercel** (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`), impostata per collegare il dominio al progetto Vercel.
+Dominio `passaonline.it` registrato su **Hostinger**, ma la zona DNS autoritativa è **Vercel** (`ns1.vercel-dns.com` / `ns2.vercel-dns.com`). Il sito è servito da Vercel tramite i record ALIAS di default; la posta è su Hostinger ed è raggiunta dai record MX/TXT/CNAME aggiunti manualmente alla zona Vercel.
 
-> ⚠️ **Email non ancora funzionante.** Spostando i nameserver su Vercel, la zona DNS di Hostinger — che contiene tutti i record della posta — ha smesso di essere interrogata. Nella zona Vercel non esiste alcun record MX o TXT, quindi `info@passaonline.it` non può ricevere né inviare. Il sito invece funziona correttamente.
->
-> Il tentativo di riportare i nameserver su Hostinger via API è bloccato da un deadlock: il registro `.it` valida i nameserver prima di accettare la delega, ma `ns1/ns2.dns-parking.com` rispondono `NXDOMAIN` per il dominio perché Hostinger pubblica la zona solo *dopo* che la delega punta a loro.
+**Il punto da ricordare: sito e posta stanno su provider diversi, ma i DNS di entrambi vivono in un solo posto — Vercel.** Chi tocca i DNS deve farlo lì, non su Hostinger.
 
-**Due modi per risolvere (uno dei due, non entrambi):**
-
-1. **Aggiungere i record mail alla zona Vercel** (consigliato, nessun rischio per il sito): ricreare su Vercel i record MX/TXT/CNAME elencati sotto, lasciando i nameserver dove sono.
-2. **Riportare i nameserver su Hostinger** da hPanel (*Domini → passaonline.it → Nameserver → Usa i nameserver di Hostinger*), che orchestra pubblicazione zona e cambio delega insieme. La zona Hostinger è **già pronta e completa**: contiene sia i record mail sia gli A record verso Vercel, quindi al momento dello switch sito e posta funzionano entrambi da subito.
-
-Record necessari (già presenti nella zona Hostinger, da replicare su Vercel se si sceglie la via 1):
+Record della posta nella zona Vercel:
 
 | Tipo  | Nome                         | Valore                                        | Scopo |
 |-------|------------------------------|-----------------------------------------------|-------|
-| A     | `@`                          | `216.198.79.1`, `64.29.17.1`                  | sito su Vercel (apex) |
-| A     | `www`                        | `216.198.79.1`, `64.29.17.1`                  | sito su Vercel (www) |
 | MX    | `@`                          | `5 mx1.hostinger.com`, `10 mx2.hostinger.com` | ricezione posta |
 | TXT   | `@`                          | `v=spf1 include:_spf.mail.hostinger.com ~all` | SPF |
 | TXT   | `_dmarc`                     | `v=DMARC1; p=none`                            | DMARC |
@@ -162,17 +153,26 @@ Record necessari (già presenti nella zona Hostinger, da replicare su Vercel se 
 | CNAME | `autodiscover`               | `autodiscover.mail.hostinger.com`             | config automatica client |
 | CNAME | `autoconfig`                 | `autoconfig.mail.hostinger.com`               | config automatica client |
 
-Gli A record puntano a Vercel: sono i valori ufficiali per il collegamento tramite DNS esterni, e valgono sia per l'apex sia per `www`.
+Si gestiscono da CLI con `vercel dns ls passaonline.it` / `vercel dns add` / `vercel dns rm`.
 
-Casella `info@passaonline.it` su piano Hostinger **Starter Business Email** (attivo, in trial dal 29/07/2026). Una volta sistemati i DNS, la casella va creata da hPanel se non esiste già. Parametri client:
+Casella `info@passaonline.it` su piano Hostinger **Starter Business Email** (attivo, in trial dal 29/07/2026). Parametri client:
 
 - IMAP: `imap.hostinger.com`, porta 993, SSL/TLS
 - SMTP: `smtp.hostinger.com`, porta 465, SSL/TLS
 - Webmail: https://mail.hostinger.com
 
-**Attenzione:** l'indirizzo `info@passaonline.it` è già pubblicato sul sito (sezione contatti, privacy policy, cookie policy). Finché i DNS non sono sistemati, chi scrive a quell'indirizzo riceve un errore di consegna.
+#### Zona Hostinger: riserva allineata, ma inattiva
 
-**Regola per il futuro:** se si ricollega il dominio a un progetto Vercel, NON usare il metodo "nameserver" — usare sempre i record A qui sopra, altrimenti la posta smette di funzionare.
+La zona su Hostinger esiste ancora ed è tenuta **allineata e pronta**: contiene gli stessi record mail più gli A record verso Vercel (`216.198.79.1`, `64.29.17.1` su `@` e `www`). Non è però interrogata da nessuno, perché la delega punta a Vercel. Serve solo come piano B: se un giorno si spostassero i nameserver su Hostinger, sito e posta continuerebbero a funzionare senza altri interventi.
+
+Attenzione: il pannello Hostinger può segnalare i DNS come "non configurati" proprio perché non vede la sua zona in uso. È cosmetico e va ignorato.
+
+#### Trappole note
+
+- **Non spostare i nameserver su Hostinger via API.** Il registro `.it` valida i nameserver prima di accettare la delega, ma Hostinger pubblica la zona solo *dopo* che la delega punta a loro: deadlock circolare, l'endpoint risponde `[Domains:9999] Request failed`. Se davvero serve, va fatto da hPanel, che orchestra le due cose insieme.
+- **Non usare il metodo "nameserver" per ricollegare il dominio a un progetto Vercel** senza prima riportare i record mail nella nuova zona: è esattamente così che la posta si era rotta la prima volta.
+- **Non fare il reset della zona DNS Hostinger.** Cancella anche i record mail nonostante i parametri `reset_email_records: false` e `whitelisted_record_types`, e riattiva da sola i record CDN `hstgr.net`.
+- L'indirizzo `info@passaonline.it` è pubblicato sul sito in tre punti (contatti, privacy policy, cookie policy): qualsiasi rottura dei DNS della posta è immediatamente visibile ai clienti.
 
 ---
 
